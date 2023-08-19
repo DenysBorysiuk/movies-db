@@ -1,1 +1,1 @@
-# smart-orange-test web site
+# smart-orange-test
