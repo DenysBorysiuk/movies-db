@@ -1,6 +1,8 @@
-function defaultTask(cb) {
-  // place code for your default task here
-  cb();
-}
+import gulp from 'gulp';
 
-exports.default = defaultTask;
+import { path } from './gulp/config/path';
+
+global.app = {
+  path: path,
+  gulp: gulp,
+};
