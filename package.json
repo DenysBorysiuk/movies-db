@@ -1,21 +1,22 @@
 {
-  "name": "smart-orange-test",
+  "name": "gulp-my-template",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DenysBorysiuk/smart-orange-test.git"
+    "url": "git+https://github.com/DenysBorysiuk/gulp-my-template.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DenysBorysiuk/smart-orange-test/issues"
+    "url": "https://github.com/DenysBorysiuk/gulp-my-template/issues"
   },
-  "homepage": "https://github.com/DenysBorysiuk/smart-orange-test#readme",
+  "homepage": "https://github.com/DenysBorysiuk/gulp-my-template#readme",
   "devDependencies": {
     "gulp": "^4.0.2"
   }
