@@ -1,0 +1,17 @@
+query getPostsEdges {
+  posts {
+    edges {
+      node {
+        id
+        title
+        date
+        author {
+          node {
+            name
+            email
+          }
+        }
+      }
+    }
+  }
+}
