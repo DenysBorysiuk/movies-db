@@ -5,6 +5,13 @@ query getPostsEdges {
         id
         title
         date
+        slug
+        featuredImage {
+          node {
+            id
+            sourceUrl
+          }
+        }
         author {
           node {
             name
