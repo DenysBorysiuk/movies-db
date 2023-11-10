@@ -5,23 +5,22 @@ query getPost($id: ID!) {
     title
     uri
     date
-     featuredImage {
-          node {
-            id
-            sourceUrl
-            altText
-            mediaDetails {
-              width
-              height
-            }
-          }
-        }
-        author {
-          node {
-            name
-            email
-          }
+    featuredImage {
+      node {
+        id
+        sourceUrl
+        altText
+        mediaDetails {
+          width
+          height
         }
       }
+    }
+    author {
+      node {
+        name
+        email
+      }
+    }
   }
 }
