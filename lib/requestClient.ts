@@ -1,3 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
 
-export const client = new GraphQLClient('http://info-site.test/index.php?graphql');
+export const client = new GraphQLClient('http://info-site.test/index.php?graphql', {
+  fetch,
+});

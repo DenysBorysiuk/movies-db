@@ -5,6 +5,7 @@ query getPost($id: ID!) {
     title
     uri
     date
+    content
     featuredImage {
       node {
         id
