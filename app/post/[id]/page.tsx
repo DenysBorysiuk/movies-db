@@ -1,4 +1,4 @@
-import { GetPostDocument } from '@/generates/gql/graphql';
+import { GetPostDocument, GetPostsEdgesDocument } from '@/generates/gql/graphql';
 import { client } from '@/lib/requestClient';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,6 +13,16 @@ const getPost = async (id: string) => {
   const { post } = await client.request(GetPostDocument, { id });
   return post;
 };
+
+export async function generateStaticParams() {
+  const { posts } = await client.request(GetPostsEdgesDocument);
+
+  if (posts?.edges) {
+    return posts.edges.map(edges => ({ id: edges.node.slug }));
+  } else {
+    return [];
+  }
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // read route params
