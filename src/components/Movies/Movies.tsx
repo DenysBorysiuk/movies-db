@@ -1,29 +1,43 @@
-import { connect } from 'react-redux';
-
-import { RootState } from '@/redux/store';
-import { Movie } from '@/redux/reducer';
+import { useEffect } from 'react';
+import { fetchMovies } from '../../redux/moviesSlice.ts';
 import MovieCard from './MovieCard';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { Container, Grid, LinearProgress, Typography } from '@mui/material';
 
-interface Props {
-  movies: Movie[];
-}
+function Movies() {
+  const dispatch = useAppDispatch();
+  const movies = useAppSelector(state => state.movies.top);
+  const loading = useAppSelector(state => state.movies.loading);
 
-function Movies({ movies }: Props) {
+  useEffect(() => {
+    dispatch(fetchMovies());
+  }, [dispatch]);
+
   return (
-    <section>
-      <div className="Movies-list">
-        {movies.map(m => (
-          <MovieCard id={m.id} title={m.title} overview={m.overview} popularity={m.popularity} />
-        ))}
-      </div>
-    </section>
+    <Container sx={{ py: 8 }} maxWidth="lg">
+      <Typography variant="h4" align="center" gutterBottom>
+        Now playing
+      </Typography>
+      {loading ? (
+        <LinearProgress color="secondary" />
+      ) : (
+        <Grid container spacing={4}>
+          {movies.map(m => (
+            <Grid item key={m.id} xs={12} sm={6} md={4}>
+              <MovieCard
+                key={m.id}
+                id={m.id}
+                title={m.title}
+                overview={m.overview}
+                popularity={m.popularity}
+                image={m.image}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      )}
+    </Container>
   );
 }
 
-const mapStateToProps = (state: RootState) => ({
-  movies: state.movies.top,
-});
-
-const connector = connect(mapStateToProps);
-
-export default connector(Movies);
+export default Movies;
