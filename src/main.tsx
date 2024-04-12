@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -8,10 +10,11 @@ import '@fontsource/roboto/700.css';
 
 import App from './App.tsx';
 import './index.css';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { About } from './components/About/About';
-import Movies from './components/Movies/Movies';
-import { Provider } from 'react-redux';
+
+import Home from '@/pages/Home';
+import About from '@/pages/About';
+import Movies from '@/pages/Movies';
+
 import store from './redux/store.ts';
 
 const router = createBrowserRouter([
@@ -24,11 +27,15 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: 'about',
+        path: '/',
+        element: <Home />,
+      },
+      {
+        path: '/about',
         element: <About />,
       },
       {
-        path: 'movies',
+        path: '/movies',
         element: <Movies />,
       },
     ],

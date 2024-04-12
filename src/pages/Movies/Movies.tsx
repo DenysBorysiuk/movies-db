@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
-import { fetchMovies } from '../../redux/moviesSlice.ts';
-import MovieCard from './MovieCard';
-import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Container, Grid, LinearProgress, Typography } from '@mui/material';
+
+import { fetchMovies } from '@/redux/moviesSlice.ts';
+
+import { MovieCard } from '@/components/MovieCard';
+
+import { useAppDispatch, useAppSelector } from '@/hooks';
 
 function Movies() {
   const dispatch = useAppDispatch();
@@ -18,20 +21,14 @@ function Movies() {
       <Typography variant="h4" align="center" gutterBottom>
         Now playing
       </Typography>
+
       {loading ? (
         <LinearProgress color="secondary" />
       ) : (
         <Grid container spacing={4}>
-          {movies.map(m => (
-            <Grid item key={m.id} xs={12} sm={6} md={4}>
-              <MovieCard
-                key={m.id}
-                id={m.id}
-                title={m.title}
-                overview={m.overview}
-                popularity={m.popularity}
-                image={m.image}
-              />
+          {movies.map(movie => (
+            <Grid item key={movie.id} xs={12} sm={6} md={4}>
+              <MovieCard {...movie} />
             </Grid>
           ))}
         </Grid>
