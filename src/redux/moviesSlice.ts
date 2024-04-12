@@ -1,4 +1,4 @@
-import { client } from '../api/tmdb.ts';
+import { client } from '../services/api.ts';
 import { ActionWithPayload, createReducer } from './utils';
 import { AppThunk } from './store';
 
