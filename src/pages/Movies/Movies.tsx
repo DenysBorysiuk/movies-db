@@ -7,7 +7,7 @@ import { MovieCard } from '@/components/MovieCard';
 
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
-function Movies() {
+const Movies = () => {
   const dispatch = useAppDispatch();
   const movies = useAppSelector(state => state.movies.top);
   const loading = useAppSelector(state => state.movies.loading);
@@ -35,6 +35,6 @@ function Movies() {
       )}
     </Container>
   );
-}
+};
 
 export default Movies;
