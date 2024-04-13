@@ -2,9 +2,9 @@ import { Outlet } from 'react-router-dom';
 import { LiveTvOutlined } from '@mui/icons-material';
 import { AppBar, CssBaseline, Toolbar, Typography, createTheme } from '@mui/material';
 import { teal } from '@mui/material/colors';
-
-import { Navigation } from '@/components/Navigation';
 import { ThemeProvider } from '@emotion/react';
+
+import { Footer, Navigation } from '@/components';
 
 const defaultTheme = createTheme({
   palette: {
@@ -34,6 +34,8 @@ export const App = () => {
       <main>
         <Outlet />
       </main>
+
+      <Footer />
     </ThemeProvider>
   );
 };
