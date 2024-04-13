@@ -4,4 +4,5 @@ export interface MovieCardProps {
   popularity: number;
   overview: string;
   image?: string;
+  enableUserAction?: boolean;
 }

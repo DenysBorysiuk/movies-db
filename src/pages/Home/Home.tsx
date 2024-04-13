@@ -2,6 +2,12 @@ import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Home = () => {
+  const loggedIn = true;
+  const userName = 'Diana';
+  const greeting = loggedIn
+    ? `${userName}, explore movies today with us!`
+    : 'Explore movies today with us!';
+
   return (
     <Box sx={{ bgcolor: 'background.paper', pt: 8, pb: 8 }}>
       <Container maxWidth="sm">
@@ -10,7 +16,7 @@ const Home = () => {
         </Typography>
 
         <Typography variant="h5" align="center" color="text.secondary" paragraph>
-          Explore movies today with us!
+          {greeting}
         </Typography>
 
         <Stack sx={{ pt: 4 }} direction="row" spacing={2} justifyContent="center">

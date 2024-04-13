@@ -1,5 +1,16 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  IconButton,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { MovieCardProps } from './types';
 
@@ -8,6 +19,7 @@ export const MovieCard = ({
   title,
   overview,
   popularity,
+  enableUserAction,
   image = '/movie-thumb.png',
 }: MovieCardProps) => {
   return (
@@ -32,6 +44,14 @@ export const MovieCard = ({
         <Button component={RouterLink} to={`/movies/${id}`} color="secondary">
           Details
         </Button>
+
+        {enableUserAction && (
+          <Tooltip title="Add to favorites">
+            <IconButton>
+              <FavoriteIcon />
+            </IconButton>
+          </Tooltip>
+        )}
       </CardActions>
     </Card>
   );

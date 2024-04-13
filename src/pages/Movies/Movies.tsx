@@ -11,6 +11,7 @@ const Movies = () => {
   const dispatch = useAppDispatch();
   const movies = useAppSelector(state => state.movies.top);
   const loading = useAppSelector(state => state.movies.loading);
+  const loggedIn = true;
 
   useEffect(() => {
     dispatch(fetchMovies());
@@ -28,7 +29,7 @@ const Movies = () => {
         <Grid container spacing={4}>
           {movies.map(movie => (
             <Grid item key={movie.id} xs={12} sm={6} md={4}>
-              <MovieCard {...movie} />
+              <MovieCard {...movie} enableUserAction={loggedIn} />
             </Grid>
           ))}
         </Grid>
