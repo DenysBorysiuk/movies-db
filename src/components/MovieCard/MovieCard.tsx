@@ -1,13 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
-interface Props {
-  id: number;
-  title: string;
-  popularity: number;
-  overview: string;
-  image?: string;
-}
+import { MovieCardProps } from './types';
 
 export const MovieCard = ({
   id,
@@ -15,7 +9,7 @@ export const MovieCard = ({
   overview,
   popularity,
   image = '/movie-thumb.png',
-}: Props) => {
+}: MovieCardProps) => {
   return (
     <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <CardMedia component="div" image={image} sx={{ pt: '56.25%' }} />
