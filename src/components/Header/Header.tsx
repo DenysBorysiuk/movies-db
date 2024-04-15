@@ -2,6 +2,7 @@ import { LiveTvOutlined } from '@mui/icons-material';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 
 import { Navigation } from '@/components';
+import { AuthBar } from '@/components';
 
 export const Header = () => {
   return (
@@ -14,6 +15,8 @@ export const Header = () => {
         </Typography>
 
         <Navigation />
+
+        <AuthBar />
       </Toolbar>
     </AppBar>
   );

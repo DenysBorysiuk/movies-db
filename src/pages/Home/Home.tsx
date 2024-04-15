@@ -1,11 +1,15 @@
-import { Box, Button, Container, Stack, Typography } from '@mui/material';
+import { useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { Box, Button, Container, Stack, Typography } from '@mui/material';
+
+import { AuthContext, anonymousUser } from '@/context/AuthContext';
 
 const Home = () => {
-  const loggedIn = true;
-  const userName = 'Diana';
+  const { user } = useContext(AuthContext);
+  const loggedIn = user != anonymousUser;
+
   const greeting = loggedIn
-    ? `${userName}, explore movies today with us!`
+    ? `${user.name}, explore movies today with us!`
     : 'Explore movies today with us!';
 
   return (
