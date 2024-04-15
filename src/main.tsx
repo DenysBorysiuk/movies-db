@@ -16,13 +16,16 @@ import About from '@/pages/About';
 import Movies from '@/pages/Movies';
 
 import store from './redux/store.ts';
+import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
       <Provider store={store}>
-        <App />
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
       </Provider>
     ),
     children: [

@@ -17,6 +17,7 @@
     "@mui/material": "^5.15.15",
     "@redux-devtools/extension": "^3.3.0",
     "axios": "^1.6.8",
+    "leaflet": "^1.9.4",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
     "react": "^18.2.0",
@@ -28,6 +29,7 @@
     "sort-by": "^1.2.0"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.9.11",
     "@types/node": "^20.12.7",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",

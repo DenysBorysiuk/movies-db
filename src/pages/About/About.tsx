@@ -1,6 +1,6 @@
 import { Container } from '@mui/material';
 
-import { CountdownVideo, CountdownText } from '@/components';
+import { CountdownVideo, CountdownText, MapView } from '@/components';
 
 const About = () => {
   return (
@@ -8,6 +8,8 @@ const About = () => {
       <CountdownText />
 
       <CountdownVideo />
+
+      <MapView />
     </Container>
   );
 };
