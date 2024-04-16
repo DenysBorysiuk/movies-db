@@ -1,23 +1,13 @@
 import { client } from '../services/api.ts';
 import { ActionWithPayload, createReducer } from './utils';
 import { AppThunk } from './store';
-
-export interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  popularity: number;
-  image?: string;
-}
-
-interface MoviesState {
-  loading: boolean;
-  top: Movie[];
-}
+import { Movie, MoviesState } from '@/types/index.ts';
 
 const initialState: MoviesState = {
   loading: false,
   top: [],
+  page: 0,
+  hasMorePages: true,
 };
 
 function loading() {
@@ -26,24 +16,29 @@ function loading() {
   };
 }
 
-function loaded(movies: Movie[]) {
+function loaded(movies: Movie[], page: number, hasMorePages: boolean) {
   return {
     type: 'movies/loaded',
-    payload: movies,
+    payload: { movies, page, hasMorePages },
   };
 }
 
-// export type AppThunk<ReturnType> = ThunkAction<ReturnType, MoviesState, undefined, UnknownAction>;
-
-export function fetchMovies(): AppThunk<Promise<void>> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function fetchNextPage(): AppThunk<Promise<void>> {
   return async (dispatch, getState) => {
+    const state = getState();
+    const nextPage = state.movies.page + 1;
+    dispatch(fetchPage(nextPage));
+  };
+}
+
+function fetchPage(page: number): AppThunk<Promise<void>> {
+  return async dispatch => {
     dispatch(loading());
 
-    const configuration = await client.getConfiguration(); // todo: single load per app
-    const results = await client.getNowPlaying();
+    const configuration = await client.getConfiguration();
+    const nowPlaying = await client.getNowPlaying(page);
     const imageSize = 'w780';
-    const movies: Movie[] = results.map(movie => ({
+    const movies: Movie[] = nowPlaying.results.map(movie => ({
       id: movie.id,
       title: movie.title,
       overview: movie.overview,
@@ -53,17 +48,27 @@ export function fetchMovies(): AppThunk<Promise<void>> {
         : undefined,
     }));
 
-    dispatch(loaded(movies));
+    const hasMorePages = nowPlaying.page < nowPlaying.totalPages;
+
+    dispatch(loaded(movies, page, hasMorePages));
   };
 }
 
 const moviesReducer = createReducer<MoviesState>(initialState, {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  'movies/loading': (state, action: ActionWithPayload<boolean>) => {
+  'movies/loading': state => {
     return { ...state, loading: true };
   },
-  'movies/loaded': (state, action: ActionWithPayload<Movie[]>) => {
-    return { ...state, top: action.payload, loading: false };
+  'movies/loaded': (
+    state,
+    action: ActionWithPayload<{ movies: Movie[]; page: number; hasMorePages: boolean }>
+  ) => {
+    return {
+      ...state,
+      top: [...state.top, ...action.payload.movies],
+      page: action.payload.page,
+      hasMorePages: action.payload.hasMorePages,
+      loading: false,
+    };
   },
 });
 

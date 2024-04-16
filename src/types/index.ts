@@ -19,7 +19,28 @@ export interface Configuration {
   };
 }
 
-export interface ITmbdClient {
-  getConfiguration: () => Promise<Configuration>;
-  getNowPlaying: () => Promise<MovieDetails[]>;
+// export interface ITmbdClient {
+//   getConfiguration: () => Promise<Configuration>;
+//   getNowPlaying: (page: number) => Promise<MovieDetails[]>;
+// }
+
+export interface PageDetails<T> {
+  results: T[];
+  page: number;
+  totalPages: number;
+}
+
+export interface Movie {
+  id: number;
+  title: string;
+  overview: string;
+  popularity: number;
+  image?: string;
+}
+
+export interface MoviesState {
+  loading: boolean;
+  top: Movie[];
+  page: number;
+  hasMorePages: boolean;
 }
