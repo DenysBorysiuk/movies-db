@@ -19,11 +19,6 @@ export interface Configuration {
   };
 }
 
-// export interface ITmbdClient {
-//   getConfiguration: () => Promise<Configuration>;
-//   getNowPlaying: (page: number) => Promise<MovieDetails[]>;
-// }
-
 export interface PageDetails<T> {
   results: T[];
   page: number;
@@ -43,4 +38,32 @@ export interface MoviesState {
   top: Movie[];
   page: number;
   hasMorePages: boolean;
+  genres: Genre[];
 }
+
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface KeywordItem {
+  id: number;
+  name: string;
+}
+
+export interface MoviesFilters {
+  keywords?: number[];
+  genres?: number[];
+}
+
+export interface Filters {
+  keywords: KeywordItem[];
+  genres: number[];
+}
+
+// interface ITmbdClient {
+//   getConfiguration: () => Promise<Configuration>;
+//   getNowPlaying: (page: number) => Promise<PageDetails<MovieDetails>>;
+//   getMovies: (page: number, filters: MoviesFilters) => Promise<PageDetails<MovieDetails>>;
+//   getKeywords: (query: string) => Promise<KeywordItem[]>;
+// }

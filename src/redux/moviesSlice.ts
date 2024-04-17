@@ -1,13 +1,15 @@
 import { client } from '../services/api.ts';
 import { ActionWithPayload, createReducer } from './utils';
 import { AppThunk } from './store';
-import { Movie, MoviesState } from '@/types/index.ts';
+import { Movie, MoviesFilters, MoviesState } from '@/types/index.ts';
+import { genres } from '@/data/genres.ts';
 
 const initialState: MoviesState = {
   loading: false,
   top: [],
   page: 0,
   hasMorePages: true,
+  genres,
 };
 
 function loading() {
@@ -22,23 +24,28 @@ function loaded(movies: Movie[], page: number, hasMorePages: boolean) {
     payload: { movies, page, hasMorePages },
   };
 }
-
-export function fetchNextPage(): AppThunk<Promise<void>> {
-  return async (dispatch, getState) => {
-    const state = getState();
-    const nextPage = state.movies.page + 1;
-    dispatch(fetchPage(nextPage));
+export function resetMovies() {
+  return {
+    type: 'movies/reset',
   };
 }
 
-function fetchPage(page: number): AppThunk<Promise<void>> {
+export function fetchNextPage(filters: MoviesFilters = {}): AppThunk<Promise<void>> {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const nextPage = state.movies.page + 1;
+    dispatch(fetchPage(nextPage, filters));
+  };
+}
+
+function fetchPage(page: number, filters: MoviesFilters): AppThunk<Promise<void>> {
   return async dispatch => {
     dispatch(loading());
 
-    const configuration = await client.getConfiguration();
-    const nowPlaying = await client.getNowPlaying(page);
+    const configuration = await client.getConfiguration(); // todo: single load per app
+    const moviesResponse = await client.getMovies(page, filters);
     const imageSize = 'w780';
-    const movies: Movie[] = nowPlaying.results.map(movie => ({
+    const movies: Movie[] = moviesResponse.results.map(movie => ({
       id: movie.id,
       title: movie.title,
       overview: movie.overview,
@@ -48,7 +55,7 @@ function fetchPage(page: number): AppThunk<Promise<void>> {
         : undefined,
     }));
 
-    const hasMorePages = nowPlaying.page < nowPlaying.totalPages;
+    const hasMorePages = moviesResponse.page < moviesResponse.totalPages;
 
     dispatch(loaded(movies, page, hasMorePages));
   };
@@ -69,6 +76,9 @@ const moviesReducer = createReducer<MoviesState>(initialState, {
       hasMorePages: action.payload.hasMorePages,
       loading: false,
     };
+  },
+  'movies/reset': () => {
+    return { ...initialState };
   },
 });
 
