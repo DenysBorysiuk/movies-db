@@ -4,7 +4,7 @@ import { Box, Button, Container, Stack, Typography } from '@mui/material';
 
 import { AuthContext, anonymousUser } from '@/context/AuthContext';
 
-const Home = () => {
+export const Home = () => {
   const { user } = useContext(AuthContext);
   const loggedIn = user != anonymousUser;
 
@@ -32,5 +32,3 @@ const Home = () => {
     </Box>
   );
 };
-
-export default Home;

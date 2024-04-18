@@ -11,14 +11,10 @@ import '@fontsource/roboto/700.css';
 import App from './App.tsx';
 import './index.css';
 
-import Home from '@/pages/Home';
-import About from '@/pages/About';
-import Movies from '@/pages/Movies';
-
 import store from './redux/store.ts';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
     element: (
@@ -31,15 +27,30 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />,
+        async lazy() {
+          const { Home } = await import('./pages/Home');
+          return {
+            Component: Home,
+          };
+        },
       },
       {
         path: '/about',
-        element: <About />,
+        async lazy() {
+          const { About } = await import('./pages/About');
+          return {
+            Component: About,
+          };
+        },
       },
       {
         path: '/movies',
-        element: <Movies />,
+        async lazy() {
+          const { Movies } = await import('./pages/Movies');
+          return {
+            Component: Movies,
+          };
+        },
       },
     ],
   },

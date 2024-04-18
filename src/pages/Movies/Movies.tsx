@@ -11,7 +11,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { MoviesFilter } from '@/components';
 import { Filters } from '@/types';
 
-const Movies = () => {
+export const Movies = () => {
   const dispatch = useAppDispatch();
   const movies = useAppSelector(state => state.movies.top);
   const loading = useAppSelector(state => state.movies.loading);
@@ -69,5 +69,3 @@ const Movies = () => {
     </Grid>
   );
 };
-
-export default Movies;

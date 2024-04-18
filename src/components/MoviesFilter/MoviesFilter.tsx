@@ -18,6 +18,7 @@ import { client } from '@/services/api';
 import { useAppSelector } from '../../hooks';
 
 import { MoviesFilterProps } from './types';
+import { Filters, KeywordItem } from '@/types';
 
 export function MoviesFilter({ onApply }: MoviesFilterProps) {
   const { control, handleSubmit, formState } = useForm<Filters>({
