@@ -9,18 +9,17 @@ import {
   FormGroup,
   FormLabel,
   Paper,
+  Skeleton,
   TextField,
   debounce,
 } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
-import { client } from '@/services/api';
-import { useAppSelector } from '../../hooks';
-
 import { MoviesFilterProps } from './types';
-import { Filters, KeywordItem } from '@/types';
+import { Filters } from '@/types';
+import { useGetGenresQuery, useGetKeywordsQuery } from '@/services/tmdb';
 
-export function MoviesFilter({ onApply }: MoviesFilterProps) {
+export const MoviesFilter = ({ onApply }: MoviesFilterProps) => {
   const { control, handleSubmit, formState } = useForm<Filters>({
     defaultValues: {
       keywords: [],
@@ -28,30 +27,23 @@ export function MoviesFilter({ onApply }: MoviesFilterProps) {
     },
   });
 
-  const [keywordsOptions, setKeywordsOptions] = useState<KeywordItem[]>([]);
-  const [keywordsLoading, setKeywordsLoading] = useState(false);
+  const [keywordsQuery, setKeywordsQuery] = useState<string>('');
+  const { data: keywordsOptions = [], isLoading: keywordsLoading } = useGetKeywordsQuery(
+    keywordsQuery,
+    { skip: !keywordsQuery }
+  );
+  const { data: genres, isLoading: genresLoading } = useGetGenresQuery();
 
-  const genres = useAppSelector(state => state.movies.genres);
-
-  const fetchKeywords = useMemo(
+  const debouncedFetchKeywordsOptions = useMemo(
     () =>
-      debounce(async query => {
-        if (query) {
-          setKeywordsLoading(true);
-
-          const options = await client.getKeywords(query);
-
-          setKeywordsLoading(false);
-          setKeywordsOptions(options);
-        } else {
-          setKeywordsOptions([]);
-        }
+      debounce((query: string) => {
+        setKeywordsQuery(query);
       }, 1000),
     []
   );
 
   return (
-    <Paper sx={{ m: 2, p: 0.5 }}>
+    <Paper sx={{ m: 2, p: 0.5, maxWidth: 350 }}>
       <form onSubmit={handleSubmit(onApply)}>
         <FormControl sx={{ m: 2, display: 'block' }} component="fieldset" variant="standard">
           <Controller
@@ -68,46 +60,53 @@ export function MoviesFilter({ onApply }: MoviesFilterProps) {
                 onChange={(_, value) => onChange(value)}
                 value={value}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
-                onInputChange={(_, value) => fetchKeywords(value)}
+                onInputChange={(_, value) => debouncedFetchKeywordsOptions(value)}
                 renderInput={params => <TextField {...params} label="Keywords" />}
               />
             )}
           />
         </FormControl>
         <FormControl sx={{ m: 2, display: 'block' }} component="fieldset" variant="standard">
-          <FormLabel component="legend">Genres</FormLabel>
-          <FormGroup sx={{ maxHeight: 500 }}>
-            <Controller
-              name="genres"
-              control={control}
-              render={({ field }) => (
-                <>
-                  {genres.map(genre => (
-                    <FormControlLabel
-                      key={genre.id}
-                      control={
-                        <Checkbox
-                          value={genre.id}
-                          checked={field.value.includes(genre.id)}
-                          onChange={(event, checked) => {
-                            const valueNumber = Number(event.target.value);
-                            if (checked) {
-                              field.onChange([...field.value, valueNumber]);
-                            } else {
-                              field.onChange(field.value.filter(value => value !== valueNumber));
-                            }
-                          }}
+          {genresLoading ? (
+            <Skeleton width={300} height={480} />
+          ) : (
+            <>
+              <FormLabel component="legend">Genres</FormLabel>
+              <FormGroup sx={{ maxHeight: 500 }}>
+                <Controller
+                  name="genres"
+                  control={control}
+                  render={({ field }) => (
+                    <>
+                      {genres?.map(genre => (
+                        <FormControlLabel
+                          key={genre.id}
+                          control={
+                            <Checkbox
+                              value={genre.id}
+                              checked={field.value.includes(genre.id)}
+                              onChange={(event, checked) => {
+                                const valueNumber = Number(event.target.value);
+                                if (checked) {
+                                  field.onChange([...field.value, valueNumber]);
+                                } else {
+                                  field.onChange(
+                                    field.value.filter(value => value !== valueNumber)
+                                  );
+                                }
+                              }}
+                            />
+                          }
+                          label={genre.name}
                         />
-                      }
-                      label={genre.name}
-                    />
-                  ))}
-                </>
-              )}
-            />
-          </FormGroup>
+                      ))}
+                    </>
+                  )}
+                />
+              </FormGroup>
+            </>
+          )}
         </FormControl>
-
         <Button
           type="submit"
           sx={{ m: 2 }}
@@ -120,4 +119,4 @@ export function MoviesFilter({ onApply }: MoviesFilterProps) {
       </form>
     </Paper>
   );
-}
+};
