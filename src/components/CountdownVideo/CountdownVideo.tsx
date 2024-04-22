@@ -3,7 +3,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import { useRef, useState } from 'react';
 
-export function CountdownVideo() {
+export const CountdownVideo = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -28,6 +28,7 @@ export function CountdownVideo() {
           onPause={() => setIsPlaying(false)}
         />
       </CardMedia>
+
       <CardActions>
         <IconButton aria-label="play/pause" onClick={togglePlaying}>
           {isPlaying ? (
@@ -39,4 +40,4 @@ export function CountdownVideo() {
       </CardActions>
     </Card>
   );
-}
+};

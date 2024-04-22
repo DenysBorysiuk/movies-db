@@ -6,7 +6,7 @@ import { Box, Container, Typography } from '@mui/material';
 
 import { createMapWidget, addPopupToMapWidget } from './mapWidget';
 
-export function MapView() {
+export const MapView = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Map | null>(null);
   const [popupContainer, setPopupContainer] = useState<HTMLElement | null>(null);
@@ -25,7 +25,7 @@ export function MapView() {
       {popupContainer !== null && createPortal(<Greeting />, popupContainer)}
     </Container>
   );
-}
+};
 
 function Greeting() {
   return (
