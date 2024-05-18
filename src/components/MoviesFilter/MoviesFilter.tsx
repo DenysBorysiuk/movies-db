@@ -66,6 +66,7 @@ export const MoviesFilter = ({ onApply }: MoviesFilterProps) => {
             )}
           />
         </FormControl>
+
         <FormControl sx={{ m: 2, display: 'block' }} component="fieldset" variant="standard">
           {genresLoading ? (
             <Skeleton width={300} height={480} />
@@ -107,6 +108,7 @@ export const MoviesFilter = ({ onApply }: MoviesFilterProps) => {
             </>
           )}
         </FormControl>
+
         <Button
           type="submit"
           sx={{ m: 2 }}

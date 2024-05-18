@@ -11,6 +11,7 @@ export const AuthBar = () => {
     return (
       <>
         <Typography sx={{ ml: 'auto' }}>Hello, {user.name}!</Typography>
+
         <Button color="inherit" sx={{ ml: 2 }} variant="outlined">
           Log out
         </Button>

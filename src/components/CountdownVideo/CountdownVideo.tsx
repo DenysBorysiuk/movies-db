@@ -1,7 +1,7 @@
+import { useRef, useState } from 'react';
 import { Card, CardActions, CardMedia, IconButton } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
-import { useRef, useState } from 'react';
 
 export const CountdownVideo = () => {
   const videoRef = useRef<HTMLVideoElement>(null);

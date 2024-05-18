@@ -1,7 +1,7 @@
 import { Link as RouterLink } from 'react-router-dom';
+import { Link, List, ListItem } from '@mui/material';
 
 import data from '@/data/common.json';
-import { Link, List, ListItem } from '@mui/material';
 
 export const Navigation = () => {
   return (
