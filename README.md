@@ -1,6 +1,6 @@
 # Movies DB
 
-## React + TypeScript + Vite
+## 🗂️ Project description
 
 ### Used Technologies:
 
