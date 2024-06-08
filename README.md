@@ -1,4 +1,4 @@
-# Movies DB
+#  🎥 Movies DB
 
 ## 🗂️ Project description
 
